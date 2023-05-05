@@ -10,10 +10,10 @@ readonly TAGS_FILE="{{tags}}"
 
 REPOTAGS="$(cat "${TAGS_FILE}")"
 
-MANIFEST_DIGEST=$(${YQ} eval '.manifests[0].digest | sub(":"; "/")' "${IMAGE_DIR}/index.json")
+MANIFEST_DIGEST=$(${YQ} eval -r '.manifests[0].digest | sub(":"; "/")' "${IMAGE_DIR}/index.json")
 MANIFEST_BLOB_PATH="${IMAGE_DIR}/blobs/${MANIFEST_DIGEST}"
 
-CONFIG_DIGEST=$(${YQ} eval '.config.digest  | sub(":"; "/")' ${MANIFEST_BLOB_PATH})
+CONFIG_DIGEST=$(${YQ} eval -r '.config.digest  | sub(":"; "/")' ${MANIFEST_BLOB_PATH})
 CONFIG_BLOB_PATH="${IMAGE_DIR}/blobs/${CONFIG_DIGEST}"
 
 LAYERS=$(${YQ} eval '.layers | map(.digest | sub(":"; "/"))' ${MANIFEST_BLOB_PATH})
